@@ -1,0 +1,6 @@
+@KartAppBE_HostAddress = http://localhost:5188
+
+GET {{KartAppBE_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
