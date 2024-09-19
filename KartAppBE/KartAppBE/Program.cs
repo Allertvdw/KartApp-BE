@@ -1,7 +1,8 @@
 using KartAppBE.BLL.Models;
 using KartAppBE.DAL.Data;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,14 +22,26 @@ builder.Services.AddCors(options =>
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+	options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+	{
+		In = ParameterLocation.Header,
+		Name = "Authorization",
+		Type = SecuritySchemeType.ApiKey
+	});
+
+	options.OperationFilter<SecurityRequirementsOperationFilter>();
+});
 
 builder.Services.AddAuthorization();
-builder.Services.AddAuthentication().AddCookie(IdentityConstants.ApplicationScheme);
 
-builder.Services.AddIdentityCore<User>()
-	.AddEntityFrameworkStores<ApplicationDbContext>()
-	.AddApiEndpoints();
+builder.Services.AddIdentityApiEndpoints<User>()
+	.AddEntityFrameworkStores<ApplicationDbContext>();
+
+//builder.Services.AddIdentityCore<User>()
+//	.AddEntityFrameworkStores<ApplicationDbContext>()
+//	.AddApiEndpoints();
 
 string connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
 	throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
@@ -51,9 +64,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors();
 
+app.MapIdentityApi<User>();
+
 app.UseHttpsRedirection();
 
-app.MapIdentityApi<User>();
+app.UseAuthorization();
 
 app.MapControllers();
 
