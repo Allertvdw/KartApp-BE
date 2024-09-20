@@ -39,10 +39,6 @@ builder.Services.AddAuthorization();
 builder.Services.AddIdentityApiEndpoints<User>()
 	.AddEntityFrameworkStores<ApplicationDbContext>();
 
-//builder.Services.AddIdentityCore<User>()
-//	.AddEntityFrameworkStores<ApplicationDbContext>()
-//	.AddApiEndpoints();
-
 string connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
 	throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 

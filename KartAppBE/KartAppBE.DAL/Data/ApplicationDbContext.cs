@@ -1,4 +1,5 @@
 ﻿using KartAppBE.BLL.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -19,5 +20,18 @@ namespace KartAppBE.DAL.Data
 		public DbSet<Review> Reviews { get; set; }
 
 		public DbSet<Session> Sessions { get; set; }
+
+		protected override void OnModelCreating(ModelBuilder builder)
+		{
+			base.OnModelCreating(builder);
+
+			var admin = new IdentityRole("admin");
+			admin.NormalizedName = "admin";
+
+			var client = new IdentityRole("client");
+			client.NormalizedName = "client";
+
+			builder.Entity<IdentityRole>().HasData(admin, client);
+		}
 	}
 }
