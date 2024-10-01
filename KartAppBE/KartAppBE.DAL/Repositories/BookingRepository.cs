@@ -11,11 +11,13 @@ namespace KartAppBE.DAL.Repositories
 {
 	public class BookingRepository(ApplicationDbContext dbContext) : IBookingRepository
 	{
-		public Booking? Create(Booking booking)
+		public async Task<Booking> Create(Booking booking, User user)
 		{
-			dbContext.Bookings.Add(booking);
+			booking.User = user;
+			await dbContext.Bookings.AddAsync(booking);
+			await dbContext.SaveChangesAsync();
 
-			return dbContext.SaveChanges() > 0 ? booking : null;
+			return booking;
 		}
 	}
 }

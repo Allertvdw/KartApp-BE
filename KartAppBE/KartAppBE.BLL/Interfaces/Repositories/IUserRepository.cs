@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace KartAppBE.BLL.Interfaces.Repositories
 {
-	public interface IBookingRepository
-	{
-		public Task<Booking> Create(Booking booking, User user);
-	}
+    public interface IUserRepository
+    {
+        public Task<User?> GetByEmail(string email);
+    }
 }

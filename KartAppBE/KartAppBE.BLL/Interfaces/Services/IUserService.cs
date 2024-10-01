@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KartAppBE.BLL.Interfaces.Repositories
+namespace KartAppBE.BLL.Interfaces.Services
 {
-	public interface IBookingRepository
+	public interface IUserService
 	{
-		public Task<Booking> Create(Booking booking, User user);
+		public Task<User?> GetByEmail(string email);
 	}
 }

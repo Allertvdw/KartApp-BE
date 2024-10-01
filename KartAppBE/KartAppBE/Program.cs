@@ -1,5 +1,9 @@
+using KartAppBE.BLL.Interfaces.Repositories;
+using KartAppBE.BLL.Interfaces.Services;
 using KartAppBE.BLL.Models;
+using KartAppBE.BLL.Services;
 using KartAppBE.DAL.Data;
+using KartAppBE.DAL.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
@@ -18,6 +22,10 @@ builder.Services.AddCors(options =>
 });
 
 // Add services to the container.
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IBookingService, BookingService>();
+builder.Services.AddScoped<IBookingRepository, BookingRepository>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
