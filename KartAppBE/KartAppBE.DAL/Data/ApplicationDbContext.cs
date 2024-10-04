@@ -21,6 +21,10 @@ namespace KartAppBE.DAL.Data
 
 		public DbSet<Session> Sessions { get; set; }
 
+		public DbSet<SessionKart> SessionKarts { get; set; }
+
+		public DbSet<LapTime> Laptimes { get; set; }
+
 		protected override void OnModelCreating(ModelBuilder builder)
 		{
 			base.OnModelCreating(builder);
