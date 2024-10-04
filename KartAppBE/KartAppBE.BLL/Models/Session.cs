@@ -9,8 +9,8 @@ namespace KartAppBE.BLL.Models
     public class Session
     {
         public int Id { get; set; }
-        public Booking? Booking { get; set; }
-        public DateTime DateTime { get; set; }
-        public TimeSpan Duration { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+        public int MaxDrivers { get; set; }
     }
 }

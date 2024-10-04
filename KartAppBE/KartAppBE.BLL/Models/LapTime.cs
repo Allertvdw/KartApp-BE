@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace KartAppBE.BLL.Models
 {
-	public class Review
+	public class LapTime
 	{
 		public int Id { get; set; }
+		public SessionKart? SessionKart { get; set; }
 		public User? User { get; set; }
-		public int Rating { get; set; }
-		public string? Text { get; set; }
-		public DateTime CreatedAt { get; set; }
+		public float LapTimeInSeconds { get; set; }
+		public int LapNumber { get; set; }
 	}
 }
