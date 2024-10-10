@@ -10,24 +10,32 @@ namespace KartAppBE.Controllers
 	[ApiController]
 	public class BookingController(IBookingService bookingService) : ControllerBase
 	{
-		[HttpPost]
-		public async Task<ActionResult<Booking>> CreateBooking([FromForm] Booking booking)
+		[HttpGet]
+		public async Task<IActionResult> GetAllBookings()
 		{
-			if (!ModelState.IsValid)
-			{
-				return BadRequest(ModelState);
-			}
+			var bookings = await bookingService.GetAllBookings();
+			return Ok(bookings);
+		}
 
-			string? email = User.FindFirstValue(ClaimTypes.Email);
+		[HttpGet]
+		public async Task<IActionResult> GetBookingById(int bookingId)
+		{
+			var booking = await bookingService.GetBookingById(bookingId);
+			return Ok(booking);
+		}
 
-			if (string.IsNullOrEmpty(email))
-			{
-				return Unauthorized("User email not found.");
-			}
+		[HttpPost]
+		public async Task<IActionResult> CreateBooking(Booking booking)
+		{
+			await bookingService.CreateBooking(booking);
+			return Ok();
+		}
 
-			Booking newBooking = await bookingService.Create(booking, email);
-
-			return Ok(newBooking);
+		[HttpPost]
+		public async Task<IActionResult> AddUserToBooking(BookingUser bookingUser)
+		{
+			await bookingService.AddUserToBooking(bookingUser);
+			return Ok();
 		}
 	}
 }

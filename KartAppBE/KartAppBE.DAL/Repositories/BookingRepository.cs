@@ -6,18 +6,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace KartAppBE.DAL.Repositories
 {
 	public class BookingRepository(ApplicationDbContext dbContext) : IBookingRepository
 	{
-		public async Task<Booking> Create(Booking booking, User user)
+		public async Task<List<Booking>> GetAllBookings()
 		{
-			booking.User = user;
+			return await dbContext.Bookings.Include(b => b.Session).ToListAsync();
+		}
+
+		public async Task<Booking> GetBookingById(int bookingId)
+		{
+			return await dbContext.Bookings
+				.Include(b => b.Session)
+				.FirstOrDefaultAsync(b => b.Id == bookingId);
+		}
+
+		public async Task CreateBooking(Booking booking)
+		{
 			await dbContext.Bookings.AddAsync(booking);
 			await dbContext.SaveChangesAsync();
+		}
 
-			return booking;
+		public async Task AddUserToBooking(BookingUser bookingUser)
+		{
+			await dbContext.BookingUsers.AddAsync(bookingUser);
+			await dbContext.SaveChangesAsync();
 		}
 	}
 }
