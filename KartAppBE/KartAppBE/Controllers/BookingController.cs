@@ -17,7 +17,7 @@ namespace KartAppBE.Controllers
 			return Ok(bookings);
 		}
 
-		[HttpGet]
+		[HttpGet("{bookingId}")]
 		public async Task<IActionResult> GetBookingById(int bookingId)
 		{
 			var booking = await bookingService.GetBookingById(bookingId);
@@ -31,7 +31,7 @@ namespace KartAppBE.Controllers
 			return Ok();
 		}
 
-		[HttpPost]
+		[HttpPost("add-user")]
 		public async Task<IActionResult> AddUserToBooking(BookingUser bookingUser)
 		{
 			await bookingService.AddUserToBooking(bookingUser);

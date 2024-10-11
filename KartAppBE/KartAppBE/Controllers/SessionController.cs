@@ -1,5 +1,6 @@
 ﻿using KartAppBE.BLL.Interfaces.Services;
 using KartAppBE.BLL.Models;
+using KartAppBE.BLL.RequestModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,7 +17,7 @@ namespace KartAppBE.Controllers
             return Ok(sessions);
         }
 
-        [HttpGet]
+        [HttpGet("{date}")]
         public async Task<IActionResult> GetSessionsByDate(DateTime date)
         {
             var sessions = await sessionService.GetSessionsByDate(date);
@@ -28,6 +29,13 @@ namespace KartAppBE.Controllers
         {
             await sessionService.CreateSessions(sessions);
             return Ok();
+        }
+
+        [HttpPost("generate")]
+        public async Task<IActionResult> GenerateSessions([FromBody] GenerateSessionsRequest request)
+        {
+            await sessionService.GenerateSessions(request);
+            return Ok("Sessions generated successfully.");
         }
     }
 }

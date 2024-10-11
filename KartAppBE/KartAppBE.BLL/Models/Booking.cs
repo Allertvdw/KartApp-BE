@@ -11,6 +11,6 @@ namespace KartAppBE.BLL.Models
         public int Id { get; set; }
         public Session? Session { get; set; }
         public int PeopleCount { get; set; }
-        public DateTime CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
     }
 }

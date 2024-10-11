@@ -1,4 +1,5 @@
 ﻿using KartAppBE.BLL.Models;
+using KartAppBE.BLL.RequestModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +13,6 @@ namespace KartAppBE.BLL.Interfaces.Services
 		Task<List<Session>> GetAllSessions();
 		Task<List<Session>> GetSessionsByDate(DateTime date);
 		Task CreateSessions(List<Session> sessions);
+		Task GenerateSessions(GenerateSessionsRequest request);
 	}
 }
