@@ -18,6 +18,11 @@ namespace KartAppBE.DAL.Repositories
 			return await dbContext.Sessions.ToListAsync();
 		}
 
+		public async Task<Session> GetSessionById(int sessionId)
+		{
+			return await dbContext.Sessions.FirstOrDefaultAsync(s => s.Id == sessionId);
+		}
+
 		public async Task<List<Session>> GetSessionsByDate(DateTime date)
 		{
 			return await dbContext.Sessions

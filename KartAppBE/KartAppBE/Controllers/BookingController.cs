@@ -1,5 +1,7 @@
-﻿using KartAppBE.BLL.Interfaces.Services;
+﻿using KartAppBE.BLL.Interfaces.Repositories;
+using KartAppBE.BLL.Interfaces.Services;
 using KartAppBE.BLL.Models;
+using KartAppBE.RequestModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -8,7 +10,7 @@ namespace KartAppBE.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	public class BookingController(IBookingService bookingService) : ControllerBase
+	public class BookingController(IBookingService bookingService, ISessionRepository sessionRepository) : ControllerBase
 	{
 		[HttpGet]
 		public async Task<IActionResult> GetAllBookings()
@@ -25,10 +27,18 @@ namespace KartAppBE.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> CreateBooking(Booking booking)
+		public async Task<IActionResult> CreateBooking(BookingRequest request)
 		{
+			var session = await sessionRepository.GetSessionById(request.SessionId);
+
+			Booking booking = new()
+			{
+				Session = session,
+				PeopleCount = request.PeopleCount,
+			};
+
 			await bookingService.CreateBooking(booking);
-			return Ok();
+			return Ok(booking);
 		}
 
 		[HttpPost("add-user")]
