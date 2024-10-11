@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace KartAppBE.BLL.Models
 {
-	public class SessionKart
+	public class BookingUser
 	{
 		public int Id { get; set; }
-		public Session? Session { get; set; }
+		public Booking? Booking { get; set; }
+		public User? User { get; set; }
 		public Kart? Kart { get; set; }
 	}
 }

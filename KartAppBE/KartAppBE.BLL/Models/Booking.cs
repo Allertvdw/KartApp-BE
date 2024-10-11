@@ -9,9 +9,8 @@ namespace KartAppBE.BLL.Models
 	public class Booking
 	{
         public int Id { get; set; }
-        public User? User { get; set; }
         public Session? Session { get; set; }
         public int PeopleCount { get; set; }
-        public DateTime CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
     }
 }

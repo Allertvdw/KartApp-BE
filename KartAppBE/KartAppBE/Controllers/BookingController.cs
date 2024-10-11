@@ -1,5 +1,7 @@
-﻿using KartAppBE.BLL.Interfaces.Services;
+﻿using KartAppBE.BLL.Interfaces.Repositories;
+using KartAppBE.BLL.Interfaces.Services;
 using KartAppBE.BLL.Models;
+using KartAppBE.RequestModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -8,26 +10,42 @@ namespace KartAppBE.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	public class BookingController(IBookingService bookingService) : ControllerBase
+	public class BookingController(IBookingService bookingService, ISessionRepository sessionRepository) : ControllerBase
 	{
-		[HttpPost]
-		public async Task<ActionResult<Booking>> CreateBooking([FromForm] Booking booking)
+		[HttpGet]
+		public async Task<IActionResult> GetAllBookings()
 		{
-			if (!ModelState.IsValid)
+			var bookings = await bookingService.GetAllBookings();
+			return Ok(bookings);
+		}
+
+		[HttpGet("{bookingId}")]
+		public async Task<IActionResult> GetBookingById(int bookingId)
+		{
+			var booking = await bookingService.GetBookingById(bookingId);
+			return Ok(booking);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> CreateBooking(BookingRequest request)
+		{
+			var session = await sessionRepository.GetSessionById(request.SessionId);
+
+			Booking booking = new()
 			{
-				return BadRequest(ModelState);
-			}
+				Session = session,
+				PeopleCount = request.PeopleCount,
+			};
 
-			string? email = User.FindFirstValue(ClaimTypes.Email);
+			await bookingService.CreateBooking(booking);
+			return Ok(booking);
+		}
 
-			if (string.IsNullOrEmpty(email))
-			{
-				return Unauthorized("User email not found.");
-			}
-
-			Booking newBooking = await bookingService.Create(booking, email);
-
-			return Ok(newBooking);
+		[HttpPost("add-user")]
+		public async Task<IActionResult> AddUserToBooking(BookingUser bookingUser)
+		{
+			await bookingService.AddUserToBooking(bookingUser);
+			return Ok();
 		}
 	}
 }
