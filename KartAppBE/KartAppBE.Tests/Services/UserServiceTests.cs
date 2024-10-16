@@ -22,6 +22,21 @@ namespace KartAppBE.Tests.Services
 		}
 
 		[Fact]
+		public async Task GetAllUsers_ShouldReturnAllUsers()
+		{
+			// Arrange
+			var users = new List<User> { new() { Id = "GUID1" }, new() { Id = "GUID2" } };
+			_mockUserRepository.Setup(repo => repo.GetAllUsers()).ReturnsAsync(users);
+
+			// Act
+			var result = await _userService.GetAllUsers();
+
+			// Assert
+			Assert.Equal(users.Count, result.Count);
+			Assert.Equal(users[0].Id, result[0].Id);
+		}
+
+		[Fact]
 		public async Task GetByEmail_ShouldReturnUser_WhenUserExists()
 		{
 			// Arrange

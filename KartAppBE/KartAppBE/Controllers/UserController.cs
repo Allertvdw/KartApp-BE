@@ -10,6 +10,13 @@ namespace KartAppBE.Controllers
 	public class UserController(IUserService userService) : ControllerBase
 	{
 		[HttpGet]
+		public async Task<IActionResult> GetAllUsers()
+		{
+			var users = await userService.GetAllUsers();
+			return Ok(users);
+		}
+
+		[HttpGet("{email}")]
 		public async Task<ActionResult<User?>> GetByEmail(string email)
 		{
 			User? user = await userService.GetByEmail(email);
