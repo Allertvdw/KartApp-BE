@@ -17,7 +17,7 @@ namespace KartAppBE.DAL.Repositories
 			return await dbContext.Bookings.Include(b => b.Session).ToListAsync();
 		}
 
-		public async Task<Booking> GetBookingById(int bookingId)
+		public async Task<Booking?> GetBookingById(int bookingId)
 		{
 			return await dbContext.Bookings
 				.Include(b => b.Session)

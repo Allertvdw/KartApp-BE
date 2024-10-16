@@ -16,7 +16,7 @@ namespace KartAppBE.BLL.Services
 			return await bookingRepository.GetAllBookings();
 		}
 
-		public async Task<Booking> GetBookingById(int bookingId)
+		public async Task<Booking?> GetBookingById(int bookingId)
 		{
 			return await bookingRepository.GetBookingById(bookingId);
 		}
