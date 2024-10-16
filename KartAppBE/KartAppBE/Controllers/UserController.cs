@@ -1,5 +1,6 @@
 ﻿using KartAppBE.BLL.Interfaces.Services;
 using KartAppBE.BLL.Models;
+using KartAppBE.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,7 +14,18 @@ namespace KartAppBE.Controllers
 		public async Task<IActionResult> GetAllUsers()
 		{
 			var users = await userService.GetAllUsers();
-			return Ok(users);
+
+			var userViewList = users.Select(u => new UserView
+			{
+				Id = u.Id,
+				FirstName = u.FirstName,
+				LastName = u.LastName,
+				Email = u.Email,
+				PhoneNumber = u.PhoneNumber,
+				CreatedAt = u.CreatedAt
+			}).ToList();
+
+			return Ok(userViewList);
 		}
 
 		[HttpGet("{email}")]
