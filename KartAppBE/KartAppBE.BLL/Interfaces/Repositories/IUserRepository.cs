@@ -9,6 +9,7 @@ namespace KartAppBE.BLL.Interfaces.Repositories
 {
     public interface IUserRepository
     {
-        public Task<User?> GetByEmail(string email);
+        Task<List<User>> GetAllUsers();
+        Task<User?> GetByEmail(string email);
     }
 }

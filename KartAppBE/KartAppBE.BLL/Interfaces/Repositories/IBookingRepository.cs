@@ -10,7 +10,7 @@ namespace KartAppBE.BLL.Interfaces.Repositories
 	public interface IBookingRepository
 	{
 		Task<List<Booking>> GetAllBookings();
-		Task<Booking> GetBookingById(int bookingId);
+		Task<Booking?> GetBookingById(int bookingId);
 		Task CreateBooking(Booking booking);
 		Task AddUserToBooking(BookingUser bookingUser);
 	}

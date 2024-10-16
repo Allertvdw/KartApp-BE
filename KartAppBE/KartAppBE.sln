@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35303.130
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KartAppBE", "KartAppBE\KartAppBE.csproj", "{E1E411E5-ABBB-4511-96D5-6A8093FDC544}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KartAppBE", "KartAppBE\KartAppBE.csproj", "{E1E411E5-ABBB-4511-96D5-6A8093FDC544}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KartAppBE.DAL", "KartAppBE.DAL\KartAppBE.DAL.csproj", "{11321EB5-D953-4BE4-9CCC-F32811962458}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KartAppBE.DAL", "KartAppBE.DAL\KartAppBE.DAL.csproj", "{11321EB5-D953-4BE4-9CCC-F32811962458}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KartAppBE.BLL", "KartAppBE.BLL\KartAppBE.BLL.csproj", "{CDFE1F19-7E75-4526-8539-37CE8601BC42}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KartAppBE.BLL", "KartAppBE.BLL\KartAppBE.BLL.csproj", "{CDFE1F19-7E75-4526-8539-37CE8601BC42}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KartAppBE.Tests", "KartAppBE.Tests\KartAppBE.Tests.csproj", "{3CF487F0-C91B-43A9-A105-81CDE295B80B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{CDFE1F19-7E75-4526-8539-37CE8601BC42}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CDFE1F19-7E75-4526-8539-37CE8601BC42}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CDFE1F19-7E75-4526-8539-37CE8601BC42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CF487F0-C91B-43A9-A105-81CDE295B80B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CF487F0-C91B-43A9-A105-81CDE295B80B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CF487F0-C91B-43A9-A105-81CDE295B80B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CF487F0-C91B-43A9-A105-81CDE295B80B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

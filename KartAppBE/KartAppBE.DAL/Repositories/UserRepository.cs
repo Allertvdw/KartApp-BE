@@ -13,6 +13,11 @@ namespace KartAppBE.DAL.Repositories
 {
     public class UserRepository(UserManager<User> userManager) : IUserRepository
     {
+        public async Task<List<User>> GetAllUsers()
+        {
+            return await userManager.Users.ToListAsync();
+        }
+
         public async Task<User?> GetByEmail(string email)
         {
             return await userManager.FindByEmailAsync(email);

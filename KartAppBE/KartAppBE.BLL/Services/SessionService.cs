@@ -17,7 +17,7 @@ namespace KartAppBE.BLL.Services
 			return await sessionRepository.GetAllSessions();
 		}
 
-		public async Task<Session> GetSessionById(int sessionId)
+		public async Task<Session?> GetSessionById(int sessionId)
 		{
 			return await sessionRepository.GetSessionById(sessionId);
 		}

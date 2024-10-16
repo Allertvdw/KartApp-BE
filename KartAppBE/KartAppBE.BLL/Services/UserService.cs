@@ -11,6 +11,11 @@ namespace KartAppBE.BLL.Services
 {
 	public class UserService(IUserRepository userRepository) : IUserService
 	{
+		public async Task<List<User>> GetAllUsers()
+		{
+			return await userRepository.GetAllUsers();
+		}
+
 		public async Task<User?> GetByEmail(string email)
 		{
 			return await userRepository.GetByEmail(email);

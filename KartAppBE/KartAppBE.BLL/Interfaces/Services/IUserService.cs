@@ -9,6 +9,7 @@ namespace KartAppBE.BLL.Interfaces.Services
 {
 	public interface IUserService
 	{
-		public Task<User?> GetByEmail(string email);
+		Task<List<User>> GetAllUsers();
+		Task<User?> GetByEmail(string email);
 	}
 }
