@@ -2,6 +2,7 @@
 using KartAppBE.BLL.Interfaces.Services;
 using KartAppBE.BLL.Models;
 using KartAppBE.RequestModels;
+using KartAppBE.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -23,7 +24,20 @@ namespace KartAppBE.Controllers
 		public async Task<IActionResult> GetBookingById(int bookingId)
 		{
 			var booking = await bookingService.GetBookingById(bookingId);
-			return Ok(booking);
+
+			BookingView bookingView = new()
+			{
+				Id = booking.Id,
+				Date = booking.Session.StartTime.Date,
+				StartTime = booking.Session.StartTime,
+				EndTime = booking.Session.EndTime,
+				PeopleCount = booking.PeopleCount,
+				Email = booking.Email,
+				PhoneNumber = booking.PhoneNumber,
+				CreatedAt = booking.CreatedAt,
+			};
+
+			return Ok(bookingView);
 		}
 
 		[HttpPost]
@@ -37,6 +51,7 @@ namespace KartAppBE.Controllers
 				PeopleCount = request.PeopleCount,
 				Email = request.Email,
 				PhoneNumber = request.PhoneNumber,
+				CreatedAt = DateTime.UtcNow,
 			};
 
 			await bookingService.CreateBooking(booking);
