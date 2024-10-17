@@ -35,6 +35,8 @@ namespace KartAppBE.Controllers
 			{
 				Session = session,
 				PeopleCount = request.PeopleCount,
+				Email = request.Email,
+				PhoneNumber = request.PhoneNumber,
 			};
 
 			await bookingService.CreateBooking(booking);
