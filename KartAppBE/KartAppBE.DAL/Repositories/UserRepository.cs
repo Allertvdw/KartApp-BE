@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace KartAppBE.DAL.Repositories
 {
-    public class UserRepository(UserManager<User> userManager) : IUserRepository
+    public class UserRepository(UserManager<User> userManager, ApplicationDbContext dbContext) : IUserRepository
     {
         public async Task<List<User>> GetAllUsers()
         {
@@ -21,6 +21,12 @@ namespace KartAppBE.DAL.Repositories
         public async Task<User?> GetByEmail(string email)
         {
             return await userManager.FindByEmailAsync(email);
+        }
+
+        public async Task RegisterUser(User user)
+        {
+            await dbContext.Users.AddAsync(user);
+            await dbContext.SaveChangesAsync();
         }
     }
 }

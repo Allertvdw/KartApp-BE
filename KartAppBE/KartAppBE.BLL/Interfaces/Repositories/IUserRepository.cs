@@ -11,5 +11,6 @@ namespace KartAppBE.BLL.Interfaces.Repositories
     {
         Task<List<User>> GetAllUsers();
         Task<User?> GetByEmail(string email);
+        Task RegisterUser(User user);
     }
 }

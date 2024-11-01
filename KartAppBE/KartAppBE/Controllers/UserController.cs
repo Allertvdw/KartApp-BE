@@ -1,5 +1,6 @@
 ﻿using KartAppBE.BLL.Interfaces.Services;
 using KartAppBE.BLL.Models;
+using KartAppBE.RequestModels;
 using KartAppBE.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -38,6 +39,22 @@ namespace KartAppBE.Controllers
 				return NotFound($"User with email '{email}' not found.");
 			}
 			
+			return Ok(user);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> RegisterUser(UserRequest request)
+		{
+			User user = new()
+			{
+				FirstName = request.FirstName,
+				LastName = request.LastName,
+				Email = request.Email,
+				PasswordHash = request.Password,
+				PhoneNumber = request.PhoneNumber,
+			};
+
+			await userService.RegisterUser(user);
 			return Ok(user);
 		}
 	}
