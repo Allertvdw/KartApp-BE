@@ -8,6 +8,10 @@ services:
       - 8080:8080
     networks:
       - kartapp-network
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=mysql;Database=kart_app;User Id=root;Password=password;
+    depends_on:
+      - mysql
 
   kartappfe:
     container_name: frontend
@@ -18,8 +22,6 @@ services:
       - 5173:5173
     networks:
       - kartapp-network
-    environment:
-      - ConnectionStrings__DefaultConnection=Server=mysql;Database=kart_app;User Id=root;Password=password;
 
   mysql:
     container_name: mysql
@@ -27,12 +29,12 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: kart_app
-      MYSQL_USER: root
-      MYSQL_PASSWORD: password
+      # MYSQL_USER: root
+      # MYSQL_PASSWORD: password
     ports:
       - 3307:3306
     volumes:
-      - mysql_data:/var/lib/mysql
+      - mysql-data:/var/lib/mysql
     networks:
       - kartapp-network
 
@@ -40,4 +42,4 @@ networks:
   kartapp-network:
 
 volumes:
-  mysql_data:
+  mysql-data:
