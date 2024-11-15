@@ -11,8 +11,10 @@ using System.Threading.Tasks;
 namespace KartAppBE.DAL.Data
 {
 	public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) 
-		: IdentityDbContext<User>(options)
+		: DbContext(options)
 	{
+		public DbSet<User> Users { get; set; }
+
 		public DbSet<Booking> Bookings { get; set; }
 
 		public DbSet<BookingUser> BookingUsers { get; set; }
@@ -24,18 +26,5 @@ namespace KartAppBE.DAL.Data
 		public DbSet<Session> Sessions { get; set; }
 
 		public DbSet<LapTime> Laptimes { get; set; }
-
-		protected override void OnModelCreating(ModelBuilder builder)
-		{
-			base.OnModelCreating(builder);
-
-			var admin = new IdentityRole("admin");
-			admin.NormalizedName = "admin";
-
-			var client = new IdentityRole("client");
-			client.NormalizedName = "client";
-
-			builder.Entity<IdentityRole>().HasData(admin, client);
-		}
 	}
 }

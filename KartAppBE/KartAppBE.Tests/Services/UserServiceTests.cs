@@ -21,14 +21,14 @@ namespace KartAppBE.Tests.Services
 		{
 			_mockUserRepository = new Mock<IUserRepository>();
 			_mockPasswordHasher = new Mock<IPasswordHasher<User>>();
-			_userService = new UserService(_mockUserRepository.Object, _mockPasswordHasher.Object);
+			_userService = new UserService(_mockUserRepository.Object);
 		}
 
 		[Fact]
 		public async Task GetAllUsers_ShouldReturnAllUsers()
 		{
 			// Arrange
-			var users = new List<User> { new() { Id = "GUID1" }, new() { Id = "GUID2" } };
+			var users = new List<User> { new() { Id = "User1" }, new() { Id = "User2" } };
 			_mockUserRepository.Setup(repo => repo.GetAllUsers()).ReturnsAsync(users);
 
 			// Act
