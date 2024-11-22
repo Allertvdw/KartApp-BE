@@ -9,6 +9,8 @@ services:
       - 8081:8081
     networks:
       - kartapp-network
+    depends_on:
+      - mysql
 
   mysql:
     container_name: database
