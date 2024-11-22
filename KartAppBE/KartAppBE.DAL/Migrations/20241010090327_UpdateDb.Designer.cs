@@ -4,6 +4,7 @@ using KartAppBE.DAL.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KartAppBE.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241010090327_UpdateDb")]
+    partial class UpdateDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,16 +36,8 @@ namespace KartAppBE.DAL.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
                     b.Property<int>("PeopleCount")
                         .HasColumnType("int");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasColumnType("longtext");
 
                     b.Property<int?>("SessionId")
                         .HasColumnType("int");
@@ -282,13 +277,13 @@ namespace KartAppBE.DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b7d13882-2a77-4fd9-9256-e293c0efc60a",
+                            Id = "598cf16b-1959-41cb-be74-b0c77c6c2ffc",
                             Name = "admin",
                             NormalizedName = "admin"
                         },
                         new
                         {
-                            Id = "093a81c2-239c-409a-8cd7-b498b326d18a",
+                            Id = "6db8252a-a4fa-406b-911f-6573fa0b2478",
                             Name = "client",
                             NormalizedName = "client"
                         });

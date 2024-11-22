@@ -1,5 +1,8 @@
-﻿using KartAppBE.BLL.Interfaces.Services;
+﻿using KartAppBE.BLL.Interfaces.Repositories;
+using KartAppBE.BLL.Interfaces.Services;
 using KartAppBE.BLL.Models;
+using KartAppBE.RequestModels;
+using KartAppBE.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -8,26 +11,58 @@ namespace KartAppBE.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	public class BookingController(IBookingService bookingService) : ControllerBase
+	public class BookingController(IBookingService bookingService, ISessionRepository sessionRepository) : ControllerBase
 	{
-		[HttpPost]
-		public async Task<ActionResult<Booking>> CreateBooking([FromForm] Booking booking)
+		[HttpGet]
+		public async Task<IActionResult> GetAllBookings()
 		{
-			if (!ModelState.IsValid)
+			var bookings = await bookingService.GetAllBookings();
+			return Ok(bookings);
+		}
+
+		[HttpGet("{bookingId}")]
+		public async Task<IActionResult> GetBookingById(int bookingId)
+		{
+			var booking = await bookingService.GetBookingById(bookingId);
+
+			BookingView bookingView = new()
 			{
-				return BadRequest(ModelState);
-			}
+				Id = booking.Id,
+				Date = booking.Session.StartTime.Date,
+				StartTime = booking.Session.StartTime,
+				EndTime = booking.Session.EndTime,
+				PeopleCount = booking.PeopleCount,
+				Email = booking.Email,
+				PhoneNumber = booking.PhoneNumber,
+				CreatedAt = booking.CreatedAt,
+			};
 
-			string? email = User.FindFirstValue(ClaimTypes.Email);
+			return Ok(bookingView);
+		}
 
-			if (string.IsNullOrEmpty(email))
+		[HttpPost]
+		public async Task<IActionResult> CreateBooking(BookingRequest request)
+		{
+			var session = await sessionRepository.GetSessionById(request.SessionId);
+
+			Booking booking = new()
 			{
-				return Unauthorized("User email not found.");
-			}
+				Session = session,
+				PeopleCount = request.PeopleCount,
+				Email = request.Email,
+				PhoneNumber = request.PhoneNumber,
+				CreatedAt = DateTime.UtcNow,
+			};
 
-			Booking newBooking = await bookingService.Create(booking, email);
+			await bookingService.CreateBooking(booking);
+			return Ok(booking);
+		}
 
-			return Ok(newBooking);
+		[HttpPost("add-user")]
+		public async Task<IActionResult> AddUserToBooking(BookingUser bookingUser)
+		{
+			await bookingService.AddUserToBooking(bookingUser);
+			return Ok();
 		}
 	}
 }

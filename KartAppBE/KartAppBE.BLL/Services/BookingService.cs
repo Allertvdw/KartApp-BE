@@ -9,13 +9,26 @@ using System.Threading.Tasks;
 
 namespace KartAppBE.BLL.Services
 {
-	public class BookingService(IBookingRepository bookingRepository, IUserRepository userRepository) : IBookingService
+	public class BookingService(IBookingRepository bookingRepository) : IBookingService
 	{
-		public async Task<Booking> Create(Booking booking, string email)
+		public async Task<List<Booking>> GetAllBookings()
 		{
-			User? user = await userRepository.GetByEmail(email);
+			return await bookingRepository.GetAllBookings();
+		}
 
-			return await bookingRepository.Create(booking, user);
+		public async Task<Booking?> GetBookingById(int bookingId)
+		{
+			return await bookingRepository.GetBookingById(bookingId);
+		}
+
+		public async Task CreateBooking(Booking booking)
+		{
+			await bookingRepository.CreateBooking(booking);
+		}
+
+		public async Task AddUserToBooking(BookingUser bookingUser)
+		{
+			await bookingRepository.AddUserToBooking(bookingUser);
 		}
 	}
 }

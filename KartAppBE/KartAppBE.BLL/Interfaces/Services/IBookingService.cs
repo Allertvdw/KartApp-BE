@@ -9,6 +9,9 @@ namespace KartAppBE.BLL.Interfaces.Services
 {
 	public interface IBookingService
 	{
-		public Task<Booking> Create(Booking booking, string email);
+		Task<List<Booking>> GetAllBookings();
+		Task<Booking?> GetBookingById(int bookingId);
+		Task CreateBooking(Booking booking);
+		Task AddUserToBooking(BookingUser bookingUser);
 	}
 }

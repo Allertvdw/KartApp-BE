@@ -6,6 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>0fc64008-4fd5-446c-9bcc-2ef48cdcb504</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,10 +24,6 @@
   <ItemGroup>
     <ProjectReference Include="..\KartAppBE.BLL\KartAppBE.BLL.csproj" />
     <ProjectReference Include="..\KartAppBE.DAL\KartAppBE.DAL.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ViewModels\" />
   </ItemGroup>
 
 </Project>
