@@ -15,6 +15,7 @@ COPY ["KartAppBE/KartAppBE.BLL/KartAppBE.BLL.csproj", "KartAppBE.BLL/"]
 COPY ["KartAppBE/KartAppBE.DAL/KartAppBE.DAL.csproj", "KartAppBE.DAL/"]
 COPY ["KartAppBE/KartAppBE.Tests/KartAppBE.Tests.csproj", "KartAppBE.Tests/"]
 RUN dotnet restore "./KartAppBE/KartAppBE.csproj"
+RUN dotnet restore "./KartAppBE.Tests/KartAppBE.Tests.csproj"
 COPY . .
 WORKDIR "/src/KartAppBE"
 RUN dotnet build "./KartAppBE.csproj" -c $BUILD_CONFIGURATION -o /app/build
