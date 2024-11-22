@@ -13,6 +13,7 @@ WORKDIR /src
 COPY ["KartAppBE/KartAppBE/KartAppBE.csproj", "KartAppBE/"]
 COPY ["KartAppBE/KartAppBE.BLL/KartAppBE.BLL.csproj", "KartAppBE.BLL/"]
 COPY ["KartAppBE/KartAppBE.DAL/KartAppBE.DAL.csproj", "KartAppBE.DAL/"]
+COPY ["KartAppBE/KartAppBE.Tests/KartAppBE.Tests.csproj", "KartAppBE.Tests/"]
 RUN dotnet restore "./KartAppBE/KartAppBE.csproj"
 COPY . .
 WORKDIR "/src/KartAppBE"
