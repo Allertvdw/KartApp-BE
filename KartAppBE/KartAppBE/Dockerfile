@@ -10,9 +10,9 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["KartAppBE/KartAppBE/KartAppBE.csproj", "KartAppBE/"]
-COPY ["KartAppBE/KartAppBE.BLL/KartAppBE.BLL.csproj", "KartAppBE.BLL/"]
-COPY ["KartAppBE/KartAppBE.DAL/KartAppBE.DAL.csproj", "KartAppBE.DAL/"]
+COPY ["KartAppBE/KartAppBE.csproj", "KartAppBE/"]
+COPY ["KartAppBE.BLL/KartAppBE.BLL.csproj", "KartAppBE.BLL/"]
+COPY ["KartAppBE.DAL/KartAppBE.DAL.csproj", "KartAppBE.DAL/"]
 RUN dotnet restore "./KartAppBE/KartAppBE.csproj"
 COPY . .
 WORKDIR "/src/KartAppBE"
