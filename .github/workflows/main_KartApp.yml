@@ -27,8 +27,9 @@ jobs:
         password: ${{ secrets.AzureAppService_ContainerPassword_d02ae2634ead4b1da00e8095bf404603 }}
 
     - name: Build and push container image to registry using dockercompose
-      run:
+    - run:
         docker compose -f ./KartAppBE/docker-compose.yml build
+    - run:
         docker compose -f ./KartAppBE/docker-compose.yml push
 
   deploy:
