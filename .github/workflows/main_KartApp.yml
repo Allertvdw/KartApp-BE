@@ -26,12 +26,10 @@ jobs:
         username: ${{ secrets.AzureAppService_ContainerUsername_c8fe336194334223a4e35746e905a67d }}
         password: ${{ secrets.AzureAppService_ContainerPassword_d02ae2634ead4b1da00e8095bf404603 }}
 
-    - name: Build and push container image to registry
-      uses: docker/build-push-action@v3
-      with:
-        push: true
-        tags: index.docker.io/${{ secrets.AzureAppService_ContainerUsername_c8fe336194334223a4e35746e905a67d }}/kartappbe:${{ github.sha }}
-        file: ./KartAppBE/KartAppBE/Dockerfile
+    - name: Build and push container image to registry using dockercompose
+      run:
+        docker-compose -f ./KartAppBE/docker-compose.yml build
+        docker-compose -f ./KartAppBE/docker-compose.yml push
 
   deploy:
     runs-on: ubuntu-latest
