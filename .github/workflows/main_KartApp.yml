@@ -28,8 +28,8 @@ jobs:
 
     - name: Build and push container image to registry using dockercompose
       run:
-        docker-compose -f ./KartAppBE/docker-compose.yml build
-        docker-compose -f ./KartAppBE/docker-compose.yml push
+        docker compose -f ./KartAppBE/docker-compose.yml build
+        docker compose -f ./KartAppBE/docker-compose.yml push
 
   deploy:
     runs-on: ubuntu-latest
