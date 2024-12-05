@@ -30,10 +30,10 @@ namespace KartAppBE.Controllers
 			return Ok(kart);
 		}
 
-		[HttpDelete]
-		public async Task<IActionResult> DeleteKart(Kart kart)
+		[HttpDelete("{id}")]
+		public async Task<IActionResult> DeleteKart(int id)
 		{
-			await kartService.DeleteKart(kart);
+			await kartService.DeleteKart(id);
 			return Ok();
 		}
 	}

@@ -11,6 +11,6 @@ namespace KartAppBE.BLL.Interfaces.Repositories
 	{
 		Task<List<Review>> GetAllReviews();
 		Task CreateReview(Review review);
-		Task DeleteReview(Review review);
+		Task DeleteReview(int id);
 	}
 }

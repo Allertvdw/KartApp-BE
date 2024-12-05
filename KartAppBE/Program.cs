@@ -21,27 +21,16 @@ builder.Services.AddCors(options =>
 	});
 });
 
-builder.Services.AddCors(options =>
-{
-	options.AddDefaultPolicy(corsPolicyBuilder =>
-	{
-		corsPolicyBuilder.WithOrigins("https://kart-app-fe.vercel.app")
-			.AllowAnyHeader()
-			.AllowAnyMethod()
-			.AllowCredentials();
-	});
-});
-
-builder.Services.AddCors(options =>
-{
-	options.AddDefaultPolicy(corsPolicyBuilder =>
-	{
-		corsPolicyBuilder.WithOrigins("https://kart-app-1s26eg5ez-allertvdws-projects.vercel.app")
-			.AllowAnyHeader()
-			.AllowAnyMethod()
-			.AllowCredentials();
-	});
-});
+//builder.Services.AddCors(options =>
+//{
+//	options.AddDefaultPolicy(corsPolicyBuilder =>
+//	{
+//		corsPolicyBuilder.WithOrigins("https://kart-app-fe.vercel.app")
+//			.AllowAnyHeader()
+//			.AllowAnyMethod()
+//			.AllowCredentials();
+//	});
+//});
 
 // Add services to the container.
 builder.Services.AddScoped<IUserService, UserService>();

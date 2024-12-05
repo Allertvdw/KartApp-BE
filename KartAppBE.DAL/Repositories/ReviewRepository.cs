@@ -23,8 +23,9 @@ namespace KartAppBE.DAL.Repositories
 			await dbContext.SaveChangesAsync();
 		}
 
-		public async Task DeleteReview(Review review)
+		public async Task DeleteReview(int id)
 		{
+			Review? review = await dbContext.Reviews.FindAsync(id);
 			dbContext.Reviews.Remove(review);
 			await dbContext.SaveChangesAsync();
 		}

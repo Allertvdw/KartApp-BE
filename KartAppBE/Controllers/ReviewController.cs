@@ -30,10 +30,10 @@ namespace KartAppBE.Controllers
 			return Ok(review);
 		}
 
-		[HttpDelete]
-		public async Task<IActionResult> DeleteReview(Review review)
+		[HttpDelete("{id}")]
+		public async Task<IActionResult> DeleteReview(int id)
 		{
-			await reviewService.DeleteReview(review);
+			await reviewService.DeleteReview(id);
 			return Ok();
 		}
 	}

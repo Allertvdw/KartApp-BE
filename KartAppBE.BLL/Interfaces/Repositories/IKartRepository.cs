@@ -11,6 +11,6 @@ namespace KartAppBE.BLL.Interfaces.Repositories
 	{
 		Task<List<Kart>> GetAllKarts();
 		Task CreateKart(Kart kart);
-		Task DeleteKart(Kart kart);
+		Task DeleteKart(int id);
 	}
 }

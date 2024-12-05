@@ -21,9 +21,9 @@ namespace KartAppBE.BLL.Services
 			await kartRepository.CreateKart(kart);
 		}
 
-		public async Task DeleteKart(Kart kart)
+		public async Task DeleteKart(int id)
 		{
-			await kartRepository.DeleteKart(kart);
+			await kartRepository.DeleteKart(id);
 		}
 	}
 }

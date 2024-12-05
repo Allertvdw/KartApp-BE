@@ -21,9 +21,9 @@ namespace KartAppBE.BLL.Services
 			await reviewRepository.CreateReview(review);
 		}
 
-		public async Task DeleteReview(Review review)
+		public async Task DeleteReview(int id)
 		{
-			await reviewRepository.DeleteReview(review);
+			await reviewRepository.DeleteReview(id);
 		}
 	}
 }

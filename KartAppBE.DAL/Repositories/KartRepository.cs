@@ -23,8 +23,9 @@ namespace KartAppBE.DAL.Repositories
 			await dbContext.SaveChangesAsync();
 		}
 
-		public async Task DeleteKart(Kart kart)
+		public async Task DeleteKart(int id)
 		{
+			Kart? kart = await dbContext.Karts.FindAsync(id);
 			dbContext.Karts.Remove(kart);
 			await dbContext.SaveChangesAsync();
 		}
