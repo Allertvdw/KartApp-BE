@@ -17,15 +17,32 @@ namespace KartAppBE.DAL.Repositories
 			return await dbContext.Karts.ToListAsync();
 		}
 
+		public async Task<Kart?> GetKartById(int kartId)
+		{
+			return await dbContext.Karts.FirstOrDefaultAsync(k => k.Id == kartId);
+		}
+
 		public async Task CreateKart(Kart kart)
 		{
 			await dbContext.Karts.AddAsync(kart);
 			await dbContext.SaveChangesAsync();
 		}
 
-		public async Task DeleteKart(int id)
+		public async Task<Kart> UpdateKart(Kart kart)
 		{
-			Kart? kart = await dbContext.Karts.FindAsync(id);
+			Kart? existingKart = await dbContext.Karts.FindAsync(kart.Id) ??
+				throw new ArgumentNullException(nameof(kart.Id));
+
+			existingKart.Number = kart.Number;
+			existingKart.Status = kart.Status;
+
+			await dbContext.SaveChangesAsync();
+			return existingKart;
+		}
+
+		public async Task DeleteKart(int kartId)
+		{
+			Kart? kart = await dbContext.Karts.FindAsync(kartId);
 			dbContext.Karts.Remove(kart);
 			await dbContext.SaveChangesAsync();
 		}

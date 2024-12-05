@@ -16,14 +16,24 @@ namespace KartAppBE.BLL.Services
 			return await kartRepository.GetAllKarts();
 		}
 
+		public async Task<Kart> GetKartById(int kartId)
+		{
+			return await kartRepository.GetKartById(kartId);
+		}
+
 		public async Task CreateKart(Kart kart)
 		{
 			await kartRepository.CreateKart(kart);
 		}
 
-		public async Task DeleteKart(int id)
+		public async Task<Kart> UpdateKart(Kart kart)
 		{
-			await kartRepository.DeleteKart(id);
+			return await kartRepository.UpdateKart(kart);
+		}
+
+		public async Task DeleteKart(int kartId)
+		{
+			await kartRepository.DeleteKart(kartId);
 		}
 	}
 }

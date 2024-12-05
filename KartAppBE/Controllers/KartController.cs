@@ -17,6 +17,13 @@ namespace KartAppBE.Controllers
 			return Ok(karts);
 		}
 
+		[HttpGet("{kartId}")]
+		public async Task<IActionResult> GetKartById(int kartId)
+		{
+			var kart = await kartService.GetKartById(kartId);
+			return Ok(kart);
+		}
+
 		[HttpPost]
 		public async Task<IActionResult> CreateKart(KartRequest request)
 		{
@@ -30,10 +37,17 @@ namespace KartAppBE.Controllers
 			return Ok(kart);
 		}
 
-		[HttpDelete("{id}")]
-		public async Task<IActionResult> DeleteKart(int id)
+		[HttpPut]
+		public async Task<IActionResult> UpdateKart([FromBody] Kart kart)
 		{
-			await kartService.DeleteKart(id);
+			var updatedKart = await kartService.UpdateKart(kart);
+			return Ok(updatedKart);
+		}
+
+		[HttpDelete("{kartId}")]
+		public async Task<IActionResult> DeleteKart(int kartId)
+		{
+			await kartService.DeleteKart(kartId);
 			return Ok();
 		}
 	}
