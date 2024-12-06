@@ -1,9 +1,11 @@
-﻿using KartAppBE.BLL.Interfaces.Services;
+﻿using KartAppBE.BLL.Enums;
+using KartAppBE.BLL.Interfaces.Services;
 using KartAppBE.BLL.Models;
 using KartAppBE.RequestModels;
 using KartAppBE.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -49,6 +51,12 @@ namespace KartAppBE.Controllers
 		[HttpPost("register")]
 		public async Task<ActionResult<User>> Register(UserRequest request)
 		{
+			var emailEntered = await userService.GetByEmail(request.Email);
+			if (emailEntered != null)
+			{
+				return BadRequest("Email already exists.");
+			}
+
 			string passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
 
 			User user = new()
@@ -58,6 +66,7 @@ namespace KartAppBE.Controllers
 				Email = request.Email,
 				PasswordHash = passwordHash,
 				PhoneNumber = request.PhoneNumber,
+				Role = Role.Client
 			};
 
 			await userService.RegisterUser(user);
@@ -75,19 +84,25 @@ namespace KartAppBE.Controllers
 			string token = CreateToken(user);
 			return Ok(token);
 		}
+
 		private string CreateToken(User user)
 		{
 			List<Claim> claims =
 			[
-				new Claim(ClaimTypes.Email, user.Email)
+				new Claim(ClaimTypes.NameIdentifier, user.Id),
+				new Claim(ClaimTypes.Email, user.Email),
+				new Claim(ClaimTypes.Role, user.Role.ToString())
 			];
+
 			var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config.GetSection("Jwt:Key").Value!));
 			var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
 			var token = new JwtSecurityToken(
 				claims: claims,
 				expires: DateTime.UtcNow.AddHours(1),
 				signingCredentials: credentials
 			);
+
 			var jwt = new JwtSecurityTokenHandler().WriteToken(token);
 			return jwt;
 		}
