@@ -4,6 +4,10 @@ using KartAppBE.RequestModels;
 using KartAppBE.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace KartAppBE.Controllers
 {
@@ -52,12 +56,40 @@ namespace KartAppBE.Controllers
 				FirstName = request.FirstName,
 				LastName = request.LastName,
 				Email = request.Email,
-				PasswordHash = request.Password,
+				PasswordHash = passwordHash,
 				PhoneNumber = request.PhoneNumber,
 			};
 
 			await userService.RegisterUser(user);
 			return Ok(user);
+		}
+
+		[HttpPost("login")]
+		public async Task<ActionResult<User>> Login(LoginRequest request)
+		{
+			User? user = await userService.GetByEmail(request.Email);
+			if (user == null || !BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
+			{
+				return Unauthorized("Invalid email or password.");
+			}
+			string token = CreateToken(user);
+			return Ok(token);
+		}
+		private string CreateToken(User user)
+		{
+			List<Claim> claims =
+			[
+				new Claim(ClaimTypes.Email, user.Email)
+			];
+			var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config.GetSection("Jwt:Key").Value!));
+			var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+			var token = new JwtSecurityToken(
+				claims: claims,
+				expires: DateTime.UtcNow.AddHours(1),
+				signingCredentials: credentials
+			);
+			var jwt = new JwtSecurityTokenHandler().WriteToken(token);
+			return jwt;
 		}
 	}
 }

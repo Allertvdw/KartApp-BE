@@ -1,7 +1,6 @@
 ﻿using KartAppBE.BLL.Interfaces.Repositories;
 using KartAppBE.BLL.Interfaces.Services;
 using KartAppBE.BLL.Models;
-using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
