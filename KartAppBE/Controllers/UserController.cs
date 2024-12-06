@@ -9,7 +9,7 @@ namespace KartAppBE.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	public class UserController(IUserService userService) : ControllerBase
+	public class UserController(IConfiguration config, IUserService userService) : ControllerBase
 	{
 		[HttpGet]
 		public async Task<IActionResult> GetAllUsers()
@@ -42,9 +42,11 @@ namespace KartAppBE.Controllers
 			return Ok(user);
 		}
 
-		[HttpPost]
-		public async Task<IActionResult> RegisterUser(UserRequest request)
+		[HttpPost("register")]
+		public async Task<ActionResult<User>> Register(UserRequest request)
 		{
+			string passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
+
 			User user = new()
 			{
 				FirstName = request.FirstName,

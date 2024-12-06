@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace KartAppBE.BLL.Services
 {
-	public class UserService(IUserRepository userRepository, IPasswordHasher<User> passwordHasher) : IUserService
+	public class UserService(IUserRepository userRepository) : IUserService
 	{
 		public async Task<List<User>> GetAllUsers()
 		{
@@ -22,10 +22,9 @@ namespace KartAppBE.BLL.Services
 			return await userRepository.GetByEmail(email);
 		}
 
-		public async Task RegisterUser(User user)
+		public async Task<User> RegisterUser(User user)
 		{
-			user.PasswordHash = passwordHasher.HashPassword(user, user.PasswordHash);
-			await userRepository.RegisterUser(user);
+			return await userRepository.RegisterUser(user);
 		}
 	}
 }

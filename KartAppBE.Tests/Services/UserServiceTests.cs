@@ -15,13 +15,11 @@ namespace KartAppBE.Tests.Services
 	{
 		private readonly UserService _userService;
 		private readonly Mock<IUserRepository> _mockUserRepository;
-		private readonly Mock<IPasswordHasher<User>> _mockPasswordHasher;
 
 		public UserServiceTests()
 		{
 			_mockUserRepository = new Mock<IUserRepository>();
-			_mockPasswordHasher = new Mock<IPasswordHasher<User>>();
-			_userService = new UserService(_mockUserRepository.Object, _mockPasswordHasher.Object);
+			_userService = new UserService(_mockUserRepository.Object);
 		}
 
 		[Fact]

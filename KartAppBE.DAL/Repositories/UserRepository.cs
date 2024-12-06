@@ -11,22 +11,23 @@ using System.Threading.Tasks;
 
 namespace KartAppBE.DAL.Repositories
 {
-    public class UserRepository(UserManager<User> userManager, ApplicationDbContext dbContext) : IUserRepository
+    public class UserRepository(ApplicationDbContext dbContext) : IUserRepository
     {
         public async Task<List<User>> GetAllUsers()
         {
-            return await userManager.Users.ToListAsync();
+            return await dbContext.Users.ToListAsync();
         }
 
         public async Task<User?> GetByEmail(string email)
         {
-            return await userManager.FindByEmailAsync(email);
+            return await dbContext.Users.SingleOrDefaultAsync(e => e.Email == email);
         }
 
-        public async Task RegisterUser(User user)
+        public async Task<User> RegisterUser(User user)
         {
             await dbContext.Users.AddAsync(user);
             await dbContext.SaveChangesAsync();
+            return user;
         }
     }
 }
