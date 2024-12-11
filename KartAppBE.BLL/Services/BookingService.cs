@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace KartAppBE.BLL.Services
 {
-	public class BookingService(IBookingRepository bookingRepository, IUserRepository userRepository) : IBookingService
+	public class BookingService(IBookingRepository bookingRepository) : IBookingService
 	{
 		public async Task<List<Booking>> GetAllBookings()
 		{
