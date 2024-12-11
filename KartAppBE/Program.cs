@@ -4,9 +4,12 @@ using KartAppBE.BLL.Models;
 using KartAppBE.BLL.Services;
 using KartAppBE.DAL.Data;
 using KartAppBE.DAL.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -59,11 +62,6 @@ builder.Services.AddSwaggerGen(options =>
 	options.OperationFilter<SecurityRequirementsOperationFilter>();
 });
 
-builder.Services.AddAuthorization();
-
-builder.Services.AddIdentityApiEndpoints<User>()
-	.AddEntityFrameworkStores<ApplicationDbContext>();
-
 string connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
 	throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
@@ -73,6 +71,17 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 		new MySqlServerVersion(new Version(8, 0, 39)),
 		mySqlOptions => mySqlOptions.MigrationsAssembly("KartAppBE.DAL")
 		));
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+	options.TokenValidationParameters = new TokenValidationParameters
+	{
+		ValidateIssuer = false,
+		ValidateAudience = false,
+		ValidateIssuerSigningKey = true,
+		IssuerSigningKey =
+			new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection("Jwt:Key").Value!))
+	});
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
@@ -85,9 +94,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors();
 
-app.MapIdentityApi<User>();
-
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
