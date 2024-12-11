@@ -1,6 +1,9 @@
-﻿using KartAppBE.BLL.Interfaces.Repositories;
+﻿using KartAppBE.BLL.Enums;
+using KartAppBE.BLL.Interfaces.Repositories;
 using KartAppBE.BLL.Interfaces.Services;
 using KartAppBE.BLL.Models;
+using KartAppBE.BLL.RequestModels;
+using KartAppBE.BLL.Services;
 using KartAppBE.RequestModels;
 using KartAppBE.ViewModels;
 using Microsoft.AspNetCore.Http;
@@ -11,7 +14,8 @@ namespace KartAppBE.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	public class BookingController(IBookingService bookingService, ISessionRepository sessionRepository) : ControllerBase
+	public class BookingController(IBookingService bookingService, ISessionService sessionService,
+		IUserService userService, IBookingUserService bookingUserService) : ControllerBase
 	{
 		[HttpGet]
 		public async Task<IActionResult> GetAllBookings()
@@ -43,7 +47,7 @@ namespace KartAppBE.Controllers
 		[HttpPost]
 		public async Task<IActionResult> CreateBooking(BookingRequest request)
 		{
-			var session = await sessionRepository.GetSessionById(request.SessionId);
+			var session = await sessionService.GetSessionById(request.SessionId);
 
 			Booking booking = new()
 			{
@@ -58,11 +62,28 @@ namespace KartAppBE.Controllers
 			return Ok(booking);
 		}
 
-		[HttpPost("add-user")]
-		public async Task<IActionResult> AddUserToBooking(BookingUser bookingUser)
+		[HttpPost("register-and-link-booking")]
+		public async Task<IActionResult> RegisterAndLinkBooking([FromBody] LinkBookingRequest request)
 		{
-			await bookingService.AddUserToBooking(bookingUser);
-			return Ok();
+			string passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
+
+			User user = new()
+			{
+				FirstName = request.FirstName,
+				LastName = request.LastName,
+				Email = request.Email,
+				PasswordHash = passwordHash,
+				PhoneNumber = request.PhoneNumber,
+				Role = Role.Client,
+			};
+
+			bool result = await bookingUserService.RegisterAndLinkBooking(user, request.BookingId);
+			if (result)
+			{
+				return Ok("User registered and linked to booking.");
+			}
+
+			return BadRequest("Failed to link user to booking.");
 		}
 	}
 }

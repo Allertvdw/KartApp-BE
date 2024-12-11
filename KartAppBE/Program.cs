@@ -46,6 +46,8 @@ builder.Services.AddScoped<IKartService, KartService>();
 builder.Services.AddScoped<IKartRepository, KartRepository>();
 builder.Services.AddScoped<IReviewService, ReviewService>();
 builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+builder.Services.AddScoped<IBookingUserService, BookingUserService>();
+builder.Services.AddScoped<IBookingUserRepository, BookingUserRepository>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

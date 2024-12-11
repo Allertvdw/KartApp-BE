@@ -1,6 +1,7 @@
 ﻿using KartAppBE.BLL.Interfaces.Repositories;
 using KartAppBE.BLL.Interfaces.Services;
 using KartAppBE.BLL.Models;
+using KartAppBE.BLL.RequestModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace KartAppBE.BLL.Services
 {
-	public class BookingService(IBookingRepository bookingRepository) : IBookingService
+	public class BookingService(IBookingRepository bookingRepository, IUserRepository userRepository) : IBookingService
 	{
 		public async Task<List<Booking>> GetAllBookings()
 		{
@@ -24,11 +25,6 @@ namespace KartAppBE.BLL.Services
 		public async Task CreateBooking(Booking booking)
 		{
 			await bookingRepository.CreateBooking(booking);
-		}
-
-		public async Task AddUserToBooking(BookingUser bookingUser)
-		{
-			await bookingRepository.AddUserToBooking(bookingUser);
 		}
 	}
 }
