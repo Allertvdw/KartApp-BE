@@ -12,6 +12,7 @@ namespace KartAppBE.BLL.Interfaces.Repositories
 		Task<List<Booking>> GetAllBookings();
 		Task<Booking?> GetBookingById(int bookingId);
 		Task CreateBooking(Booking booking);
+		Task<BookingUser?> GetByBookingAndUserId(int bookingId, string userId);
 		Task AddUserToBooking(BookingUser bookingUser);
 	}
 }
