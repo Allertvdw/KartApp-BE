@@ -82,7 +82,7 @@ namespace KartAppBE.Controllers
 				return Unauthorized("Invalid email or password.");
 			}
 			string token = CreateToken(user);
-			return Ok(token);
+			return Ok(new { token });
 		}
 
 		private string CreateToken(User user)
