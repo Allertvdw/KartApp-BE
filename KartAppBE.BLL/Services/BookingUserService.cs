@@ -10,9 +10,14 @@ using System.Threading.Tasks;
 
 namespace KartAppBE.BLL.Services
 {
-	public class BookingUserService(IBookingUserRepository bookingUserRepository,
-		IBookingRepository bookingRepository, IUserRepository userRepository) : IBookingUserService
+	public class BookingUserService(IBookingUserRepository bookingUserRepository, IBookingRepository bookingRepository,
+		IUserRepository userRepository, IKartRepository kartRepository) : IBookingUserService
 	{
+		public async Task<List<BookingUser>> GetBookingUserBySessionId(int sessionId)
+		{
+			return await bookingUserRepository.GetBookingUserBySessionId(sessionId);
+		}
+
 		public async Task<bool> RegisterAndLinkBooking(User user, int bookingId)
 		{
 			var createdUser = await userRepository.RegisterUser(user) ??
@@ -20,6 +25,9 @@ namespace KartAppBE.BLL.Services
 
 			var booking = await bookingRepository.GetBookingById(bookingId) ??
 				throw new Exception("Booking not found.");
+
+			var kart = await kartRepository.GetFirstAvailableKart() ??
+				throw new Exception("No available kart found.");
 
 			var existingLink = await bookingUserRepository.GetByBookingAndUser(booking, createdUser);
 			if (existingLink != null)
@@ -31,6 +39,7 @@ namespace KartAppBE.BLL.Services
 			{
 				Booking = booking,
 				User = createdUser,
+				Kart = kart,
 			};
 
 			await bookingUserRepository.CreateBookingUser(bookingUser);

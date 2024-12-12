@@ -16,7 +16,7 @@ namespace KartAppBE.BLL.Services
 			return await kartRepository.GetAllKarts();
 		}
 
-		public async Task<Kart> GetKartById(int kartId)
+		public async Task<Kart?> GetKartById(int kartId)
 		{
 			return await kartRepository.GetKartById(kartId);
 		}

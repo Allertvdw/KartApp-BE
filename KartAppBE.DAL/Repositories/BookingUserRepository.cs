@@ -12,6 +12,17 @@ namespace KartAppBE.DAL.Repositories
 {
 	public class BookingUserRepository(ApplicationDbContext dbContext) : IBookingUserRepository
 	{
+		public async Task<List<BookingUser>> GetBookingUserBySessionId(int sessionId)
+		{
+			return await dbContext.BookingUsers
+				.Include(bu => bu.User)
+				.Include(bu => bu.Kart)
+				.Include(bu => bu.Booking)
+				.ThenInclude(b => b.Session)
+				.Where(bu => bu.Booking.Session.Id == sessionId)
+				.ToListAsync();
+		}
+
 		public async Task<BookingUser?> GetByBookingAndUser(Booking booking, User user)
 		{
 			return await dbContext.BookingUsers

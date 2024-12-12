@@ -1,4 +1,5 @@
-﻿using KartAppBE.BLL.Interfaces.Repositories;
+﻿using KartAppBE.BLL.Enums;
+using KartAppBE.BLL.Interfaces.Repositories;
 using KartAppBE.BLL.Models;
 using KartAppBE.DAL.Data;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +21,11 @@ namespace KartAppBE.DAL.Repositories
 		public async Task<Kart?> GetKartById(int kartId)
 		{
 			return await dbContext.Karts.FirstOrDefaultAsync(k => k.Id == kartId);
+		}
+
+		public async Task<Kart?> GetFirstAvailableKart()
+		{
+			return await dbContext.Karts.FirstOrDefaultAsync(k => k.Status == KartStatus.Available);
 		}
 
 		public async Task CreateKart(Kart kart)

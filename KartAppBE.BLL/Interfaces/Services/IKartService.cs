@@ -10,7 +10,7 @@ namespace KartAppBE.BLL.Interfaces.Services
 	public interface IKartService
 	{
 		Task<List<Kart>> GetAllKarts();
-		Task<Kart> GetKartById(int kartId);
+		Task<Kart?> GetKartById(int kartId);
 		Task CreateKart(Kart kart);
 		Task<Kart> UpdateKart(Kart kart);
 		Task DeleteKart(int kartId);

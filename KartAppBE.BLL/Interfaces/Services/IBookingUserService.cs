@@ -9,6 +9,7 @@ namespace KartAppBE.BLL.Interfaces.Services
 {
 	public interface IBookingUserService
 	{
+		Task<List<BookingUser>> GetBookingUserBySessionId(int sessionId);
 		Task<bool> RegisterAndLinkBooking(User user, int bookingId);
 	}
 }
