@@ -40,6 +40,7 @@ namespace KartAppBE.Controllers
                 SessionStartTime = bu.Booking.Session.StartTime,
                 SessionEndTime = bu.Booking.Session.EndTime,
                 FirstName = bu.User.FirstName,
+                LastName = bu.User.LastName,
                 KartNumber = bu.Kart.Number,
                 BookingId = bu.Booking.Id
             }).ToList();
