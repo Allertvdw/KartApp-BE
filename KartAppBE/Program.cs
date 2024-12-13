@@ -10,18 +10,20 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
+using DotNetEnv;
+
+Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
+var connectionString = $"server={Environment.GetEnvironmentVariable("DB_HOST")};user={Environment.GetEnvironmentVariable("DB_USER")};database={Environment.GetEnvironmentVariable("DB_NAME")};port={Environment.GetEnvironmentVariable("DB_PORT")};password={Environment.GetEnvironmentVariable("DB_PASSWORD")};";
+
 builder.Services.AddCors(options =>
 {
-	options.AddDefaultPolicy(corsPolicyBuilder =>
-	{
-		corsPolicyBuilder.WithOrigins("http://localhost:5173")
-			.AllowAnyHeader()
-			.AllowAnyMethod()
-			.AllowCredentials();
-	});
+	options.AddPolicy("AllowAnyOrigin",
+		policy => policy.AllowAnyOrigin()
+		.AllowAnyMethod()
+		.AllowAnyHeader());
 });
 
 //builder.Services.AddCors(options =>
@@ -64,9 +66,6 @@ builder.Services.AddSwaggerGen(options =>
 	options.OperationFilter<SecurityRequirementsOperationFilter>();
 });
 
-string connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
-	throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 	options.UseMySql(
 		connectionString,
@@ -94,7 +93,7 @@ if (app.Environment.IsDevelopment())
 	app.UseSwaggerUI();
 }
 
-app.UseCors();
+app.UseCors("AllowAnyOrigin");
 
 app.UseHttpsRedirection();
 
