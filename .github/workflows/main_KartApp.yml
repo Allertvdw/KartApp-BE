@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy container app to Azure Web App - KartApp
+name: Build and deploy ASP.Net Core app to Azure Web App - kartapp
 
 on:
   push:
@@ -11,41 +11,55 @@ on:
 
 jobs:
   build:
-    runs-on: 'ubuntu-latest'
+    runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v2
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.x'
 
-    - name: Log in to registry
-      uses: docker/login-action@v2
-      with:
-        registry: https://index.docker.io/v1/
-        username: ${{ secrets.AzureAppService_ContainerUsername_c8fe336194334223a4e35746e905a67d }}
-        password: ${{ secrets.AzureAppService_ContainerPassword_d02ae2634ead4b1da00e8095bf404603 }}
+      - name: Build with dotnet
+        run: dotnet build KartAppBE.sln --configuration Release
 
-    - name: Build and push container image to registry
-      uses: docker/build-push-action@v3
-      with:
-        push: true
-        tags: index.docker.io/${{ secrets.AzureAppService_ContainerUsername_c8fe336194334223a4e35746e905a67d }}/kartappbe:${{ github.sha }}
-        file: ./KartAppBE/Dockerfile
+      - name: dotnet publish
+        run: dotnet publish KartAppBE.sln -c Release -o "${{env.DOTNET_ROOT}}/myapp"
+
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v4
+        with:
+          name: .net-app
+          path: ${{env.DOTNET_ROOT}}/myapp
 
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     needs: build
     environment:
-      name: 'production'
+      name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    permissions:
+      id-token: write #This is required for requesting the JWT
 
     steps:
-    - name: Deploy to Azure Web App
-      id: deploy-to-webapp
-      uses: azure/webapps-deploy@v2
-      with:
-        app-name: 'KartApp'
-        slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_76782345249f4a75b1eff0db0c51464f }}
-        images: 'index.docker.io/${{ secrets.AzureAppService_ContainerUsername_c8fe336194334223a4e35746e905a67d }}/kartappbe:${{ github.sha }}'
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v4
+        with:
+          name: .net-app
+      
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_B0D09566A243444BB047D54BE8B1C630 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_811C7F7FB907479C83B57EF60293B6B1 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_1C2E452339454985AD93E2A4D358F955 }}
+
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: 'kartapp'
+          slot-name: 'Production'
+          package: .
+          
