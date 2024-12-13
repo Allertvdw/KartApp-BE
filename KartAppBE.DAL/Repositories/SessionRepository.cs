@@ -15,24 +15,24 @@ namespace KartAppBE.DAL.Repositories
 	{
 		public async Task<List<Session>> GetAllSessions()
 		{
-			return await dbContext.Sessions.ToListAsync();
+			return await dbContext.sessions.ToListAsync();
 		}
 
 		public async Task<Session?> GetSessionById(int sessionId)
 		{
-			return await dbContext.Sessions.FirstOrDefaultAsync(s => s.Id == sessionId);
+			return await dbContext.sessions.FirstOrDefaultAsync(s => s.Id == sessionId);
 		}
 
 		public async Task<List<Session>> GetSessionsByDate(DateTime date)
 		{
-			return await dbContext.Sessions
+			return await dbContext.sessions
 				.Where(s => s.StartTime.Date == date.Date)
 				.ToListAsync();
 		}
 
 		public async Task CreateSessions(List<Session> sessions)
 		{
-			await dbContext.Sessions.AddRangeAsync(sessions);
+			await dbContext.sessions.AddRangeAsync(sessions);
 			await dbContext.SaveChangesAsync();
 		}
 	}
