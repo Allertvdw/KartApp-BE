@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace KartAppBE.BLL.Interfaces.Services
 {
-	public interface IUserService
+	public interface IBookingUserService
 	{
-		Task<List<User>> GetAllUsers();
-		Task<User?> GetByEmail(string email);
-		Task<User> RegisterUser(User user);
+		Task<List<BookingUser>> GetBookingUserBySessionId(int sessionId);
+		Task<bool> RegisterAndLinkBooking(User user, int bookingId);
 	}
 }

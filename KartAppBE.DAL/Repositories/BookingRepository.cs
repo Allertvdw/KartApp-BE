@@ -30,6 +30,12 @@ namespace KartAppBE.DAL.Repositories
 			await dbContext.SaveChangesAsync();
 		}
 
+		public async Task<BookingUser?> GetByBookingAndUserId(int bookingId, string userId)
+		{
+			return await dbContext.BookingUsers
+				.FirstOrDefaultAsync(bu => bu.Booking.Id == bookingId && bu.User.Id == userId);
+		}
+
 		public async Task AddUserToBooking(BookingUser bookingUser)
 		{
 			await dbContext.BookingUsers.AddAsync(bookingUser);

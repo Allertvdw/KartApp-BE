@@ -1,7 +1,6 @@
 ﻿using KartAppBE.BLL.Interfaces.Repositories;
 using KartAppBE.BLL.Models;
 using KartAppBE.BLL.Services;
-using Microsoft.AspNetCore.Identity;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -15,13 +14,11 @@ namespace KartAppBE.Tests.Services
 	{
 		private readonly UserService _userService;
 		private readonly Mock<IUserRepository> _mockUserRepository;
-		private readonly Mock<IPasswordHasher<User>> _mockPasswordHasher;
 
 		public UserServiceTests()
 		{
 			_mockUserRepository = new Mock<IUserRepository>();
-			_mockPasswordHasher = new Mock<IPasswordHasher<User>>();
-			_userService = new UserService(_mockUserRepository.Object, _mockPasswordHasher.Object);
+			_userService = new UserService(_mockUserRepository.Object);
 		}
 
 		[Fact]

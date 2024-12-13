@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace KartAppBE.BLL.Interfaces.Services
 {
-	public interface IUserService
+	public interface IReviewService
 	{
-		Task<List<User>> GetAllUsers();
-		Task<User?> GetByEmail(string email);
-		Task<User> RegisterUser(User user);
+		Task<List<Review>> GetAllReviews();
+		Task CreateReview(Review review);
+		Task DeleteReview(int id);
 	}
 }
