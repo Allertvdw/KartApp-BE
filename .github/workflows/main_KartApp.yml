@@ -28,7 +28,7 @@ jobs:
         run: dotnet build KartAppBE.sln --configuration Release
 
       - name: Run tests
-        run: dotnet test KartAppBE.sln --no-build --verbosity normal
+        run: dotnet test KartAppBE.sln --no-build --configuration Release --verbosity normal
 
       - name: dotnet publish
         run: dotnet publish KartAppBE.sln -c Release -o "${{env.DOTNET_ROOT}}/myapp"
