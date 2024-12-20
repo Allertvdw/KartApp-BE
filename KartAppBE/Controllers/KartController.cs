@@ -27,6 +27,11 @@ namespace KartAppBE.Controllers
 		[HttpPost]
 		public async Task<IActionResult> CreateKart(KartRequest request)
 		{
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
+
 			Kart kart = new()
 			{
 				Number = request.Number,
