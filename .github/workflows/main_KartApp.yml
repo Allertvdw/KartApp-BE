@@ -25,7 +25,7 @@ jobs:
         run: dotnet restore KartAppBE.sln
 
       - name: Run tests
-        run: dotnet test KartAppBE.sln --no-build --verbosity normal
+        run: dotnet test KartAppBE.sln --verbosity normal
 
       - name: Build with dotnet
         run: dotnet build KartAppBE.sln --configuration Release
