@@ -24,11 +24,11 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore KartAppBE.sln
 
-      - name: Run tests
-        run: dotnet test KartAppBE.sln --verbosity normal
-
       - name: Build with dotnet
         run: dotnet build KartAppBE.sln --configuration Release
+
+      - name: Run tests
+        run: dotnet test KartAppBE.sln --no-build --verbosity normal
 
       - name: dotnet publish
         run: dotnet publish KartAppBE.sln -c Release -o "${{env.DOTNET_ROOT}}/myapp"
