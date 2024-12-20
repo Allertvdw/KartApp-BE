@@ -14,31 +14,31 @@ namespace KartAppBE.DAL.Repositories
 	{
 		public async Task<List<Booking>> GetAllBookings()
 		{
-			return await dbContext.Bookings.Include(b => b.Session).ToListAsync();
+			return await dbContext.bookings.Include(b => b.Session).ToListAsync();
 		}
 
 		public async Task<Booking?> GetBookingById(int bookingId)
 		{
-			return await dbContext.Bookings
+			return await dbContext.bookings
 				.Include(b => b.Session)
 				.FirstOrDefaultAsync(b => b.Id == bookingId);
 		}
 
 		public async Task CreateBooking(Booking booking)
 		{
-			await dbContext.Bookings.AddAsync(booking);
+			await dbContext.bookings.AddAsync(booking);
 			await dbContext.SaveChangesAsync();
 		}
 
 		public async Task<BookingUser?> GetByBookingAndUserId(int bookingId, string userId)
 		{
-			return await dbContext.BookingUsers
+			return await dbContext.bookingusers
 				.FirstOrDefaultAsync(bu => bu.Booking.Id == bookingId && bu.User.Id == userId);
 		}
 
 		public async Task AddUserToBooking(BookingUser bookingUser)
 		{
-			await dbContext.BookingUsers.AddAsync(bookingUser);
+			await dbContext.bookingusers.AddAsync(bookingUser);
 			await dbContext.SaveChangesAsync();
 		}
 	}
