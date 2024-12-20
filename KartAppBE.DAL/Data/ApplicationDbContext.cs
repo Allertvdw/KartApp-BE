@@ -11,18 +11,18 @@ namespace KartAppBE.DAL.Data
 	public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) 
 		: DbContext(options)
 	{
-		public DbSet<User> Users { get; set; }
+		public DbSet<User> users { get; set; }
 
-		public DbSet<Booking> Bookings { get; set; }
+		public DbSet<Booking> bookings { get; set; }
 
-		public DbSet<BookingUser> BookingUsers { get; set; }
+		public DbSet<BookingUser> bookingusers { get; set; }
 
-		public DbSet<Kart> Karts { get; set; }
+		public DbSet<Kart> karts { get; set; }
 
-		public DbSet<Review> Reviews { get; set; }
+		public DbSet<Review> reviews { get; set; }
 
-		public DbSet<Session> Sessions { get; set; }
+		public DbSet<Session> sessions { get; set; }
 
-		public DbSet<LapTime> Laptimes { get; set; }
+		public DbSet<LapTime> laptimes { get; set; }
 	}
 }

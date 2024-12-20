@@ -14,19 +14,19 @@ namespace KartAppBE.DAL.Repositories
 	{
 		public async Task<List<Review>> GetAllReviews()
 		{
-			return await dbContext.Reviews.ToListAsync();
+			return await dbContext.reviews.ToListAsync();
 		}
 
 		public async Task CreateReview(Review review)
 		{
-			await dbContext.Reviews.AddAsync(review);
+			await dbContext.reviews.AddAsync(review);
 			await dbContext.SaveChangesAsync();
 		}
 
 		public async Task DeleteReview(int id)
 		{
-			Review? review = await dbContext.Reviews.FindAsync(id);
-			dbContext.Reviews.Remove(review);
+			Review? review = await dbContext.reviews.FindAsync(id);
+			dbContext.reviews.Remove(review);
 			await dbContext.SaveChangesAsync();
 		}
 	}
