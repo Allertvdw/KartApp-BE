@@ -51,6 +51,11 @@ namespace KartAppBE.Controllers
 		[HttpPost("register")]
 		public async Task<ActionResult<User>> Register(UserRequest request)
 		{
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
+
 			var emailEntered = await userService.GetByEmail(request.Email);
 			if (emailEntered != null)
 			{

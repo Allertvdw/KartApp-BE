@@ -65,6 +65,18 @@ namespace KartAppBE.Controllers
 		[HttpPost("register-and-link-booking")]
 		public async Task<IActionResult> RegisterAndLinkBooking([FromBody] LinkBookingRequest request)
 		{
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
+
+			var emailEntered = await userService.GetByEmail(request.Email);
+			if (emailEntered != null)
+			{
+				ModelState.AddModelError("Email", "Email already exists.");
+				return BadRequest(ModelState);
+			}
+
 			string passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
 
 			User user = new()
