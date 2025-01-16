@@ -25,7 +25,10 @@ namespace KartAppBE.DAL.Repositories
 
 		public async Task<Kart?> GetFirstAvailableKart()
 		{
-			return await dbContext.karts.FirstOrDefaultAsync(k => k.Status == KartStatus.Available);
+			return await dbContext.karts
+				.Where(k => k.Status == KartStatus.Available)
+				.Where(k => !dbContext.bookingusers.Any(bu => bu.Kart.Id == k.Id))
+				.FirstOrDefaultAsync();
 		}
 
 		public async Task CreateKart(Kart kart)
