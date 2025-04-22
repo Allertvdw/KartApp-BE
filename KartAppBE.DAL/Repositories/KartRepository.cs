@@ -15,31 +15,31 @@ namespace KartAppBE.DAL.Repositories
 	{
 		public async Task<List<Kart>> GetAllKarts()
 		{
-			return await dbContext.karts.ToListAsync();
+			return await dbContext.Karts.ToListAsync();
 		}
 
 		public async Task<Kart?> GetKartById(int kartId)
 		{
-			return await dbContext.karts.FirstOrDefaultAsync(k => k.Id == kartId);
+			return await dbContext.Karts.FirstOrDefaultAsync(k => k.Id == kartId);
 		}
 
 		public async Task<Kart?> GetFirstAvailableKart()
 		{
-			return await dbContext.karts
+			return await dbContext.Karts
 				.Where(k => k.Status == KartStatus.Available)
-				.Where(k => !dbContext.bookingusers.Any(bu => bu.Kart.Id == k.Id))
+				.Where(k => !dbContext.BookingUsers.Any(bu => bu.Kart.Id == k.Id))
 				.FirstOrDefaultAsync();
 		}
 
 		public async Task CreateKart(Kart kart)
 		{
-			await dbContext.karts.AddAsync(kart);
+			await dbContext.Karts.AddAsync(kart);
 			await dbContext.SaveChangesAsync();
 		}
 
 		public async Task<Kart> UpdateKart(Kart kart)
 		{
-			Kart? existingKart = await dbContext.karts.FindAsync(kart.Id) ??
+			Kart? existingKart = await dbContext.Karts.FindAsync(kart.Id) ??
 				throw new ArgumentNullException(nameof(kart.Id));
 
 			existingKart.Number = kart.Number;
@@ -51,8 +51,8 @@ namespace KartAppBE.DAL.Repositories
 
 		public async Task DeleteKart(int kartId)
 		{
-			Kart? kart = await dbContext.karts.FindAsync(kartId);
-			dbContext.karts.Remove(kart);
+			Kart? kart = await dbContext.Karts.FindAsync(kartId);
+			dbContext.Karts.Remove(kart);
 			await dbContext.SaveChangesAsync();
 		}
 	}

@@ -14,7 +14,7 @@ namespace KartAppBE.DAL.Repositories
 	{
 		public async Task<List<BookingUser>> GetBookingUserBySessionId(int sessionId)
 		{
-			return await dbContext.bookingusers
+			return await dbContext.BookingUsers
 				.Include(bu => bu.User)
 				.Include(bu => bu.Kart)
 				.Include(bu => bu.Booking)
@@ -25,7 +25,7 @@ namespace KartAppBE.DAL.Repositories
 
 		public async Task<BookingUser?> GetByBookingAndUser(Booking booking, User user)
 		{
-			return await dbContext.bookingusers
+			return await dbContext.BookingUsers
 				.Include(bu => bu.Booking)
 				.Include(bu => bu.User)
 				.FirstOrDefaultAsync(bu => bu.Booking.Id == booking.Id && bu.User.Id == user.Id);
@@ -33,7 +33,7 @@ namespace KartAppBE.DAL.Repositories
 
 		public async Task CreateBookingUser(BookingUser bookingUser)
 		{
-			await dbContext.bookingusers.AddAsync(bookingUser);
+			await dbContext.BookingUsers.AddAsync(bookingUser);
 			await dbContext.SaveChangesAsync();
 		}
 	}
