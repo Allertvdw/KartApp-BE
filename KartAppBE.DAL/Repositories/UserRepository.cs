@@ -14,17 +14,17 @@ namespace KartAppBE.DAL.Repositories
     {
         public async Task<List<User>> GetAllUsers()
         {
-            return await dbContext.users.ToListAsync();
+            return await dbContext.Users.ToListAsync();
         }
 
         public async Task<User?> GetByEmail(string email)
         {
-            return await dbContext.users.SingleOrDefaultAsync(e => e.Email == email);
+            return await dbContext.Users.SingleOrDefaultAsync(e => e.Email == email);
         }
 
         public async Task<User> RegisterUser(User user)
         {
-            await dbContext.users.AddAsync(user);
+            await dbContext.Users.AddAsync(user);
             await dbContext.SaveChangesAsync();
             return user;
         }
