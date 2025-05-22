@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using MySqlConnector;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -81,13 +82,22 @@ namespace KartAppBE.Controllers
 		[HttpPost("login")]
 		public async Task<ActionResult<User>> Login(LoginRequest request)
 		{
-			User? user = await userService.GetByEmail(request.Email);
-			if (user == null || !BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
+			using var connection = new MySqlConnection(config.GetConnectionString("DefaultConnection"));
+			await connection.OpenAsync();
+
+			var query = "SELECT * FROM Users WHERE Email = @Email AND PasswordHash = @Password";
+			using var command = new MySqlCommand(query, connection);
+			command.Parameters.AddWithValue("@Email", request.Email);
+			command.Parameters.AddWithValue("@Password", request.Password);
+
+			using var reader = await command.ExecuteReaderAsync();
+
+			if (await reader.ReadAsync())
 			{
-				return Unauthorized("Invalid email or password.");
+				return Ok(new { Message = "Login successful!" });
 			}
-			string token = CreateToken(user);
-			return Ok(new { token });
+
+			return Unauthorized(new { Message = "Invalid credentials." });
 		}
 
 		private string CreateToken(User user)

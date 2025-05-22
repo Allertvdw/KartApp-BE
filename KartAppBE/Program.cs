@@ -16,10 +16,10 @@ Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connectionString = $"server={Environment.GetEnvironmentVariable("DB_HOST")};user={Environment.GetEnvironmentVariable("DB_USER")};database={Environment.GetEnvironmentVariable("DB_NAME")};port={Environment.GetEnvironmentVariable("DB_PORT")};password={Environment.GetEnvironmentVariable("DB_PASSWORD")};";
+//var connectionString = $"server={Environment.GetEnvironmentVariable("DB_HOST")};user={Environment.GetEnvironmentVariable("DB_USER")};database={Environment.GetEnvironmentVariable("DB_NAME")};port={Environment.GetEnvironmentVariable("DB_PORT")};password={Environment.GetEnvironmentVariable("DB_PASSWORD")};";
 
-//string connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
-//	throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+string connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
+	throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
 builder.Services.AddCors(options =>
 {
